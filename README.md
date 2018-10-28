@@ -1,1 +1,1 @@
-# js_learning_mix
+A mix of small javascript projects for learning purposes
