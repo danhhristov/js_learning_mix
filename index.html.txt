@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Calculator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+	<script src="script.js"></script>
+</head>
+
+<body>
+	<div class="bg"></div>
+	<div class="main">
+		<form name="form">
+			<input class="textview" name="textview">
+		</form>
+		<table>
+			<tr>
+				<td>
+					<input type="button" class="button" onclick="clean()" value="C">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="back()" value="&lt;">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('/')" value="&divide;">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('*')" value="&times;">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" class="button" onclick="insert('7')" value="7">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('8')" value="8">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('9')" value="9">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('-')" value="&minus;">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" class="button" onclick="insert('4')" value="4">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('5')" value="5">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('6')" value="6">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('+')" value="&plus;">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" class="button" onclick="insert('1')" value="1">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('2')" value="2">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('3')" value="3">
+				</td>
+				<td rowspan="2">
+					<input type="button" class="button" style="height: 110px" onclick="equal()" value="&equals;">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" class="button" style="width: 110px" onclick="insert('0')" value="0">
+				</td>
+				<td>
+					<input type="button" class="button" onclick="insert('.')" value=".">
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</body>
+
+</html>
