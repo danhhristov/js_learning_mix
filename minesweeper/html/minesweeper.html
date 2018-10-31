@@ -9,21 +9,27 @@
 </head>
 
 <body>
+	<header id="header"><span id="timer">00:00:00</span><span id="bombsContainer"><img src="/minesweeper/icons/flag.png"
+			 height="35" width="35" /><i id="bombs"></i></span></header>
 	<div id="content">
 		<canvas id="canvas" width="400px" height="400px"></canvas>
 		<table>
 			<tr>
 				<td>
-					<a href="#" class="btn">Easy</a>
+					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Easy</a>
 				</td>
 				<td>
-					<a href="#" class="btn">Medium</a>
+					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Medium</a>
 				</td>
 				<td>
-					<a href="#" class="btn">Hard</a>
+					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Hard</a>
 				</td>
 			</tr>
 		</table>
+	</div>
+
+	<div id="info-modal">
+		<!-- Create a sign-like info modal for congrats / game over  -->
 	</div>
 
 	<script src="/minesweeper/js/minesweeper.js"></script>

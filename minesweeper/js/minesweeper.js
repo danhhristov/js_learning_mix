@@ -2,16 +2,22 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 const cell_width = (cell_height = 40);
 const difficulties = {
-  easy: "Easy",
-  medium: "Medium",
-  hard: "Hard"
+  easy: 2.5,
+  medium: 4,
+  hard: 6
 };
-const bombs = {
-  easy: 10,
-  medium: 25,
-  hard: 50
-};
-var difficulty = difficulties.easy;
+
+var timer = document.getElementById("timer");
+
+var difficulty = "easy";
+var timerInterval = null;
+var startDate = null;
+
+var cells = null;
+var openedCells = 0;
+var bombs = 0;
+var markedBombs = 0;
+var bombCount = document.getElementById("bombs");
 
 class Cell {
   constructor(bomb, point) {
@@ -37,10 +43,12 @@ class Cell {
 
   markAsBomb() {
     if (!this.isOpen) {
+      markedBombs = markedBombs + (this.markedBomb ? -1 : 1);
       this.markedBomb = !this.markedBomb;
       this.bImage.src = this.markedBomb
         ? "/minesweeper/icons/flag.png"
         : "/minesweeper/icons/back.png";
+      setBombCount();
     }
   }
 
@@ -69,16 +77,26 @@ class Cell {
   open() {
     if (!this.isOpen) {
       this.isOpen = true;
+      openedCells++;
       this.bImage.src = this.bomb
         ? "/minesweeper/icons/mine.png"
         : "/minesweeper/icons/" + this.bombCount + ".png";
       if (this.bomb) {
         //game over :(
-        alert("Game over");
+        stopTimer();
         showAllBombs();
+        gameOver();
       }
     }
   }
+}
+
+function gameOver() {}
+
+function gameWon() {}
+
+function setBombCount() {
+  bombCount.innerHTML = markedBombs;
 }
 
 function showAllBombs() {
@@ -89,15 +107,15 @@ function showAllBombs() {
   }
 }
 
-var cells = [[], [], [], [], [], [], [], [], [], []];
-
 function drawGrid() {
   for (let i = 0; i <= 9; i++) {
     let sx = i * cell_width;
     for (let j = 0; j <= 9; j++) {
       let sy = j * cell_height;
       let rnd = Math.random() * 10 + 1;
-      cells[i].push(new Cell(rnd < 3, { x: sx, y: sy }));
+      let bomb = rnd < difficulties[difficulty];
+      cells[i].push(new Cell(bomb, { x: sx, y: sy }));
+      if (bomb) bombs++;
     }
   }
 }
@@ -128,20 +146,47 @@ function calcMines(point) {
   }
 }
 
-drawGrid();
-(function() {
+function initGame() {
+  cells = [[], [], [], [], [], [], [], [], [], []];
+  startDate = new Date();
+  bombs = 0;
+  markedBombs = 0;
+  openedCells = 0;
+  setBombCount();
+  drawGrid();
   for (let i = 0; i < cells.length; i++) {
     for (let j = 0; j < cells[i].length; j++) {
       calcMines({ x: i, y: j });
     }
   }
-})();
+
+  startTimer();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    elapsedTime = (new Date() - startDate) / 1000;
+    let secs =
+      "" + (elapsedTime % 60 < 10 ? "0" : "") + Math.floor(elapsedTime % 60);
+    let minutes = elapsedTime / 60;
+    let mins = "" + (minutes % 60 < 10 ? "0" : "") + Math.floor(minutes);
+    let hours = minutes / 60;
+    let hs = "" + (hours % 60 < 10 ? "0" : "") + Math.floor(hours);
+    timer.innerHTML = hs + ":" + mins + ":" + secs;
+  }, 999);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
 
 canvas.onmousedown = function(evt) {
   const padding = 46;
   const cellSize = 40;
   const x = Math.floor((event.pageX - canvas.offsetLeft - padding) / cellSize);
   const y = Math.floor((event.pageY - canvas.offsetTop - padding) / cellSize);
+  if (x < 0 || x > cells.length - 1 || y < 0 || y > cells.length - 1)
+    return false;
   //get mouse button to determine left or right click
   const mouseClick = evt.button;
   const leftClick = 0;
@@ -149,11 +194,18 @@ canvas.onmousedown = function(evt) {
   if (mouseClick == leftClick) {
     cells[x][y].open();
     //Check if there are unopened cells
-    //unopened + marked should be 1000
+    if (openedCells + markedBombs >= 100 || openedCells + bombs >= 100) {
+      stopTimer();
+      gameWon();
+    }
   } else {
     cells[x][y].markAsBomb();
   }
 };
 
+function changeDifficulty(button) {
+  difficulty = button.innerHTML.toLocaleLowerCase();
+  initGame();
+}
 //Prevent context menu (right click)
 document.addEventListener("contextmenu", event => event.preventDefault());
