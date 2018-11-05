@@ -86,14 +86,49 @@ class Cell {
         stopTimer();
         showAllBombs();
         gameOver();
+      } else if (this.bombCount == 0) {
+        //open all neighbours which are not bombs
+        openEmptyNeighbours(this.point);
       }
     }
   }
 }
 
-function gameOver() {}
+function openEmptyNeighbours(point) {
+  const x = point.x / 40;
+  const y = point.y / 40;
+  if (cells[x - 1]) {
+    if (cells[x - 1][y - 1] && !cells[x - 1][y - 1].isBomb())
+      cells[x - 1][y - 1].open();
+    if (cells[x - 1][y] && !cells[x - 1][y].isBomb()) cells[x - 1][y].open();
+    if (cells[x - 1][y + 1] && !cells[x - 1][y + 1].isBomb())
+      cells[x - 1][y + 1].open();
+  }
+  if (cells[x][y - 1] && !cells[x][y - 1].isBomb()) cells[x][y - 1].open();
+  if (cells[x][y + 1] && !cells[x][y + 1].isBomb()) cells[x][y + 1].open();
 
-function gameWon() {}
+  if (cells[x + 1]) {
+    if (cells[x + 1][y - 1] && !cells[x + 1][y - 1].isBomb())
+      cells[x + 1][y - 1].open();
+    if (cells[x + 1][y] && !cells[x + 1][y].isBomb()) cells[x + 1][y].open();
+    if (cells[x + 1][y + 1] && !cells[x + 1][y + 1].isBomb())
+      cells[x + 1][y + 1].open();
+  }
+}
+
+function gameOver() {
+  clearBoundEvents();
+  alert("You lose :(");
+}
+
+function gameWon() {
+  clearBoundEvents();
+  alert("You win :)");
+}
+
+function clearBoundEvents() {
+  canvas.onmousedown = null;
+}
 
 function setBombCount() {
   bombCount.innerHTML = markedBombs;
@@ -159,7 +194,7 @@ function initGame() {
       calcMines({ x: i, y: j });
     }
   }
-
+  initCanvasEvents();
   startTimer();
 }
 
@@ -180,28 +215,32 @@ function stopTimer() {
   clearInterval(timerInterval);
 }
 
-canvas.onmousedown = function(evt) {
-  const padding = 46;
-  const cellSize = 40;
-  const x = Math.floor((event.pageX - canvas.offsetLeft - padding) / cellSize);
-  const y = Math.floor((event.pageY - canvas.offsetTop - padding) / cellSize);
-  if (x < 0 || x > cells.length - 1 || y < 0 || y > cells.length - 1)
-    return false;
-  //get mouse button to determine left or right click
-  const mouseClick = evt.button;
-  const leftClick = 0;
-  //   const rightClick = 2;
-  if (mouseClick == leftClick) {
-    cells[x][y].open();
-    //Check if there are unopened cells
-    if (openedCells + markedBombs >= 100 || openedCells + bombs >= 100) {
-      stopTimer();
-      gameWon();
+function initCanvasEvents() {
+  canvas.onmousedown = function(evt) {
+    const padding = 46;
+    const cellSize = 40;
+    const x = Math.floor(
+      (event.pageX - canvas.offsetLeft - padding) / cellSize
+    );
+    const y = Math.floor((event.pageY - canvas.offsetTop - padding) / cellSize);
+    if (x < 0 || x > cells.length - 1 || y < 0 || y > cells.length - 1)
+      return false;
+    //get mouse button to determine left or right click
+    const mouseClick = evt.button;
+    const leftClick = 0;
+    //   const rightClick = 2;
+    if (mouseClick == leftClick) {
+      cells[x][y].open();
+      //Check if there are unopened cells
+      if (openedCells + markedBombs >= 100 || openedCells + bombs >= 100) {
+        stopTimer();
+        gameWon();
+      }
+    } else {
+      cells[x][y].markAsBomb();
     }
-  } else {
-    cells[x][y].markAsBomb();
-  }
-};
+  };
+}
 
 function changeDifficulty(button) {
   difficulty = button.innerHTML.toLocaleLowerCase();
