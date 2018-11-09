@@ -13,17 +13,13 @@ const rightClick = 2;
 const timer = document.getElementById("timer");
 const bombCount = document.getElementById("bombs");
 const canvas = document.getElementById("canvas");
+const title = document.getElementById("modal-title");
+const content = document.getElementById("modal-content");
 const mouse = {
   left: false,
   right: false
 };
 
-//Could make this an arrow function
-//and use it as a class and avoid resetting everything manually
-//by just creating a new object every time ...
-//This will also allow for the creation of private variables instead
-//of the current public ones (even if they are within the game const).
-//This will be next step of refactoring...
 const game = {
   difficulty: "easy",
   timerInterval: null,
@@ -193,13 +189,21 @@ const calcMines = point => {
 };
 
 const gameOver = () => {
-  clearBoundEvents();
-  alert("You lose :(");
+  endGameSequence("You lose!", "Try agin on easier difficulty?");
 };
 
 const gameWon = () => {
+  endGameSequence(
+    "You win!",
+    "Congratulations. Why not try a harder difficulty?"
+  );
+};
+
+const endGameSequence = (t, c) => {
   clearBoundEvents();
-  alert("You win :)");
+  title.innerHTML = t;
+  content.innerHTML = c;
+  showModals();
 };
 
 const clearBoundEvents = () => {
@@ -328,9 +332,26 @@ const resetClicks = () => {
   mouse.right = false;
 };
 
+const hideModals = () => {
+  document.getElementById("modal").classList.add("hidden");
+  document.getElementById("modal-bg").classList.add("hidden");
+};
+
+const showModals = () => {
+  const modal = document.getElementById("modal");
+  modal.classList.remove("hidden");
+  modal.classList.add("fadein");
+  setTimeout(() => {
+    modal.classList.remove("fadein");
+  }, 3000);
+  document.getElementById("modal-bg").classList.remove("hidden");
+};
+
 const changeDifficulty = button => {
+  hideModals();
   game.setDifficulty(button.innerHTML.toLocaleLowerCase());
   initGame();
 };
 //Prevent context menu (right click)
 document.addEventListener("contextmenu", event => event.preventDefault());
+showModals();

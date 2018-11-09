@@ -15,6 +15,14 @@ const icons = {
   8: "/minesweeper/icons/8.png"
 };
 
+/**
+ *
+ * @param { point, bomb, w, h} state object contains the initial values
+ * needed for a cell to be initialised:
+ * point - {x, y} coordinates relative to the canvas,
+ * bomb - a flag to determine if the cell contains a bomb,
+ * w[idth] and h[eight] - dimensions of the cell
+ */
 const CellFactory = state => {
   let x = state.point.x;
   let y = state.point.y;

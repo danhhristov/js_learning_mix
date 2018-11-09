@@ -1,40 +1,68 @@
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Minesweeper</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="/minesweeper/css/main.css"
+    />
+  </head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Minesweeper</title>
-	<link rel="stylesheet" type="text/css" media="screen" href="/minesweeper/css/main.css" />
+  <body>
+    <header id="header">
+      <span id="timer">00:00:00</span
+      ><span id="bombsContainer"
+        ><img src="/minesweeper/icons/flag.png" height="35" width="35"/><i
+          id="bombs"
+        ></i
+      ></span>
+    </header>
+    <div id="content">
+      <canvas id="canvas" width="400px" height="400px"></canvas>
+    </div>
 
-</head>
+    <div id="modal-bg" class="hidden"></div>
+    <div id="modal" class="hidden">
+      <div class="modal-header"><h2 id="modal-title">Welcome!</h2></div>
+      <div class="modal-main">
+        <div id="modal-content">Choose a difficulty to begin</div>
+        <br />
+        <table class="z-999">
+          <tr>
+            <td class="easy">
+              <a
+                href="#"
+                class="btn difficulty"
+                onclick="changeDifficulty(this)"
+                >Easy</a
+              >
+            </td>
+            <td class="medium">
+              <a
+                href="#"
+                class="btn difficulty"
+                onclick="changeDifficulty(this)"
+                >Medium</a
+              >
+            </td>
+            <td class="hard">
+              <a
+                href="#"
+                class="btn difficulty"
+                onclick="changeDifficulty(this)"
+                >Hard</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
-<body>
-	<header id="header"><span id="timer">00:00:00</span><span id="bombsContainer"><img src="/minesweeper/icons/flag.png"
-			 height="35" width="35" /><i id="bombs"></i></span></header>
-	<div id="content">
-		<canvas id="canvas" width="400px" height="400px"></canvas>
-		<table>
-			<tr>
-				<td>
-					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Easy</a>
-				</td>
-				<td>
-					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Medium</a>
-				</td>
-				<td>
-					<a href="#" class="btn difficulty" onclick="changeDifficulty(this)">Hard</a>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div id="info-modal">
-		<!-- Create a sign-like info modal for congrats / game over  -->
-	</div>
-
-	<script src="/minesweeper/js/Cell.js"></script>
-	<script src="/minesweeper/js/minesweeper.js"></script>
-</body>
-
+    <script src="/minesweeper/js/Cell.js"></script>
+    <script src="/minesweeper/js/minesweeper.js"></script>
+  </body>
 </html>
