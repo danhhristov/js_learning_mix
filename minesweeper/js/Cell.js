@@ -47,7 +47,6 @@ const CellFactory = state => {
   let markedBomb = false;
 
   return {
-    //public functions here
     increaseBombCount() {
       bombCount++;
     },
@@ -91,12 +90,10 @@ const CellFactory = state => {
         openedCells++;
         this.showIcon();
         if (bomb) {
-          //game over :(
           stopTimer();
           showAllBombs();
           gameOver();
         } else if (bombCount == 0) {
-          //open all neighbours which are not bombs
           openEmptyNeighbours(point);
         }
       }

@@ -1,5 +1,5 @@
 "use strict";
-//Refactoring in progress things might break at times :) :/
+
 const cell_width = 40;
 const cell_height = 40;
 const difficulties = {
@@ -9,7 +9,6 @@ const difficulties = {
 };
 const leftClick = 0;
 const rightClick = 2;
-//maybe add jquery to simplify some stuff ?
 const timer = document.getElementById("timer");
 const bombCount = document.getElementById("bombs");
 const canvas = document.getElementById("canvas");
@@ -307,7 +306,6 @@ const initCanvasEvents = () => {
         openNeighbours(cells[x][y].getPoint());
       }
       cells[x][y].open();
-      //Check if there are unopened cells
       const openedCells = game.getOpenedCells();
       if (
         openedCells + game.getMarkedBombs() >= 100 ||
