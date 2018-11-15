@@ -1,0 +1,81 @@
+$colors: (
+  body-background: #adadada9
+);
+
+$gpx-size: (
+  small: 10px,
+  medium: 20px,
+  large: 30px,
+  huge: 60px
+);
+// Change the below variable with regards to the screen size?
+$gpx: map-get($gpx-size, large);
+$board-size: (
+  width: 10 * $gpx * 1.5,
+  height: 20 * $gpx
+);
+$preview-size: (
+  width: 6 * $gpx * 1.5,
+  height: 6 * $gpx
+);
+$margins: (
+  board: $gpx/2 0 0 $gpx,
+  preview: $gpx/2 0 0
+    (
+      map-get($board-size, width) + 2 * $gpx
+    ),
+  score: (
+    map-get($preview-size, height) + 2 * $gpx
+  )
+  0 0
+  (
+    map-get($board-size, width) + 2 * $gpx
+  ),
+  instructions: (
+    map-get($preview-size, height) + 4 * $gpx
+  )
+  0 0
+  (
+    map-get($board-size, width) + 2 * $gpx
+  )
+);
+$paddings: ();
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: map-get($colors, body-background);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  #board {
+    position: fixed;
+    width: map-get($board-size, width);
+    height: map-get($board-size, height);
+    border: 1px solid black;
+    margin: map-get($margins, board);
+  }
+  #preview {
+    position: fixed;
+    width: map-get($preview-size, width);
+    height: map-get($preview-size, height);
+    border: 1px solid black;
+    margin: map-get($margins, preview);
+  }
+  .score-container {
+    all: unset;
+    position: fixed;
+    font-size: $gpx * 1.1;
+    margin: map-get($margins, score);
+    #score {
+      all: unset;
+    }
+  }
+  #instructions {
+    position: fixed;
+    margin: map-get($margins, instructions);
+  }
+}
+.hidden {
+  display: none;
+}

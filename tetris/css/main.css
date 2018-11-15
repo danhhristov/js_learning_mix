@@ -1,0 +1,46 @@
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #adadada9;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body #board {
+  position: fixed;
+  width: 450px;
+  height: 600px;
+  border: 1px solid black;
+  margin: 15px 0 0 30px;
+}
+
+body #preview {
+  position: fixed;
+  width: 270px;
+  height: 180px;
+  border: 1px solid black;
+  margin: 15px 0 0 510px;
+}
+
+body .score-container {
+  all: unset;
+  position: fixed;
+  font-size: 33px;
+  margin: 240px 0 0 510px;
+}
+
+body .score-container #score {
+  all: unset;
+}
+
+body #instructions {
+  position: fixed;
+  margin: 300px 0 0 510px;
+}
+
+.hidden {
+  display: none;
+}
+/*# sourceMappingURL=main.css.map */
